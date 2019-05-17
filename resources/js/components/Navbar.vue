@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
@@ -59,6 +60,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { mapGetters } from 'vuex';
 import LocaleDropdown from './LocaleDropdown';
 

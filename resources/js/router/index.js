@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from 'vue';
 import store from '~/store';
 import Meta from 'vue-meta';
@@ -29,8 +30,8 @@ export default router;
  */
 function createRouter() {
   const router = new Router({
-    scrollBehavior,
     mode: 'history',
+    scrollBehavior,
     routes,
   });
 

@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <div class="row">
     <div class="col-lg-8 m-auto">

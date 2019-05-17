@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <div class="custom-control custom-checkbox d-flex">
     <input

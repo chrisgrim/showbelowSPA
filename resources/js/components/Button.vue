@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <button :type="nativeType" :disabled="loading" :class="{
     [`btn-${type}`]: true,

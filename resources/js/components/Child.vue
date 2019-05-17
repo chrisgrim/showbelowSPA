@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <transition name="page" mode="out-in">
     <slot>

@@ -1,3 +1,4 @@
+<!-- eslint-disable -->
 <template>
   <card :title="$t('your_password')">
     <form @submit.prevent="update" @keydown="form.onKeydown($event)">

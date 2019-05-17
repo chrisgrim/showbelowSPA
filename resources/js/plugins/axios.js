@@ -2,7 +2,7 @@ import axios from 'axios';
 import store from '~/store';
 import router from '~/router';
 import Swal from 'sweetalert2';
-import i18n from '~/plugins/i18n';
+// import i18n from '~/plugins/i18n';
 
 // Request interceptor
 axios.interceptors.request.use((request) => {
@@ -28,22 +28,22 @@ axios.interceptors.response.use(response => response, (error) => {
   if (status >= 500) {
     Swal.fire({
       type: 'error',
-      title: i18n.t('error_alert_title'),
-      text: i18n.t('error_alert_text'),
+      title: 'error_alert_title',
+      text: 'error_alert_text',
       reverseButtons: true,
-      confirmButtonText: i18n.t('ok'),
-      cancelButtonText: i18n.t('cancel'),
+      confirmButtonText: 'ok',
+      cancelButtonText: 'cancel',
     });
   }
 
   if (status === 401 && store.getters['auth/check']) {
     Swal.fire({
       type: 'warning',
-      title: i18n.t('token_expired_alert_title'),
-      text: i18n.t('token_expired_alert_text'),
+      title: 'token_expired_alert_title',
+      text: 'token_expired_alert_text',
       reverseButtons: true,
-      confirmButtonText: i18n.t('ok'),
-      cancelButtonText: i18n.t('cancel'),
+      confirmButtonText: 'ok',
+      cancelButtonText: 'cancel',
     }).then(() => {
       store.commit('auth/LOGOUT');
 
