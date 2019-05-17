@@ -2,13 +2,13 @@
 <template>
   <div class="row">
     <div class="col-lg-8 m-auto">
-      <card :title="$t('verify_email')">
+      <card :title="'verify_email'">
         <form @submit.prevent="send" @keydown="form.onKeydown($event)">
           <alert-success :form="form" :message="status" />
 
           <!-- Email -->
           <div class="form-group row">
-            <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
+            <label class="col-md-3 col-form-label text-md-right">{{ 'email' }}</label>
             <div class="col-md-7">
               <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
               <has-error :form="form" field="email" />
@@ -19,7 +19,7 @@
           <div class="form-group row">
             <div class="col-md-9 ml-md-auto">
               <v-button :loading="form.busy">
-                {{ $t('send_verification_link') }}
+                {{ 'send_verification_link' }}
               </v-button>
             </div>
           </div>
@@ -36,7 +36,7 @@ export default {
   middleware: 'guest',
 
   metaInfo() {
-    return { title: this.$t('verify_email') };
+    return { title: 'verify_email' };
   },
 
   data: () => ({

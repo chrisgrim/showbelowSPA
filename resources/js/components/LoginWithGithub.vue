@@ -1,7 +1,7 @@
 <!-- eslint-disable -->
 <template>
   <button v-if="githubAuth" class="btn btn-dark ml-auto" type="button" @click="login">
-    {{ $t('login_with') }}
+    Login with
     <fa :icon="['fab', 'github']" />
   </button>
 </template>
@@ -27,7 +27,7 @@ export default {
 
   methods: {
     async login() {
-      const newWindow = openWindow('', this.$t('login'));
+      const newWindow = openWindow('', 'login');
 
       const url = await this.$store.dispatch('auth/fetchOauthUrl', {
         provider: 'github',
