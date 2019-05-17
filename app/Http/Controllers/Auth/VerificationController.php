@@ -2,31 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Validation\ValidationException;
 
 class VerificationController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Email Verification Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling email verification for any
-    | user that recently registered with the application. Emails may also
-    | be re-sent if the user didn't receive the original email message.
-    |
-    */
-
-    use VerifiesEmails;
-
-    /**
-     * Where to redirect users after verification.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
     /**
      * Create a new controller instance.
      *
@@ -34,8 +18,67 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
+    }
+
+    /**
+     * Mark the user's email address as verified.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function verify(Request $request, User $user)
+    {
+        if (! URL::hasValidSignature($request)) {
+            return response()->json([
+                'status' => __('The verification link is invalid.'),
+            ], 400);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json([
+                'status' => __('The email is already verified.'),
+            ], 400);
+        }
+
+        $user->markEmailAsVerified();
+
+        event(new Verified($user));
+
+        return response()->json([
+            'status' => __('Your email has been verified!'),
+        ]);
+    }
+
+    /**
+     * Resend the email verification notification.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resend(Request $request)
+    {
+        $this->validate($request, ['email' => 'required|email']);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (is_null($user)) {
+            throw ValidationException::withMessages([
+                'email' => [__('We can\'t find a user with that e-mail address.')],
+            ]);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            throw ValidationException::withMessages([
+                'email' => [__('The email is already verified.')],
+            ]);
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return response()->json([
+            'status' => __('We have e-mailed your verification link!'),
+        ]);
     }
 }
